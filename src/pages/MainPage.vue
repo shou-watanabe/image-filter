@@ -74,6 +74,9 @@ export default Vue.extend({
     },
     updateOriginalFilePath(path: string): void {
       this.originalImagePath = path;
+      // 元画像が切り替わるので初期化
+      this.resultImagePath = "";
+      this.histGraphPath = "";
     },
   },
 });
