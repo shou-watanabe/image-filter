@@ -1,6 +1,6 @@
 <template>
-  <v-card :width="width" :height="height">
-    <v-app-bar v-if="useHeader">
+  <v-card :width="width" :height="height" :elevation="1">
+    <v-app-bar v-if="useHeader" :elevation="1">
       <p class="subtitle-1 font-weight-bold ma-auto">
         {{ headerText }}
       </p>
