@@ -1,5 +1,5 @@
 <template>
-  <FilterPlace />
+  <FilterPlace :result-image-path="resultImagePath" @exec-filter="execFilter" />
 </template>
 
 <script lang="ts">
@@ -10,6 +10,18 @@ export default Vue.extend({
   name: "MainTemplate",
   components: {
     FilterPlace,
+  },
+  props: {
+    resultImagePath: {
+      type: String,
+      default: "",
+      required: true,
+    },
+  },
+  methods: {
+    execFilter(): void {
+      this.$emit("exec-filter");
+    },
   },
 });
 </script>

@@ -1,10 +1,15 @@
 <template>
   <div>
-    <!-- <ImageDisplayer :image-path="imagePath" /> -->
-    <v-row style="height: 450px" justify="center" align-content="center">
+    <v-row
+      :style="{ height: '450px', width: '800px' }"
+      justify="center"
+      align-content="center"
+    >
       <ImageDisplayer :image-path="imagePath" />
-      <v-btn>aaa</v-btn>
-      <ImageDisplayer :image-path="imagePath" />
+      <v-btn icon x-large @click="execFilter">
+        <v-icon x-large>mdi-play-outline</v-icon>
+      </v-btn>
+      <ImageDisplayer :image-path="resultImagePath" />
     </v-row>
   </div>
 </template>
@@ -23,6 +28,18 @@ export default Vue.extend({
       imagePath:
         "/Users/watanabeshou/Desktop/image-filter-python/sample_image/fullcolor_sample_gray1.png",
     };
+  },
+  props: {
+    resultImagePath: {
+      type: String,
+      default: "",
+      required: true,
+    },
+  },
+  methods: {
+    execFilter(): void {
+      this.$emit("exec-filter");
+    },
   },
 });
 </script>
