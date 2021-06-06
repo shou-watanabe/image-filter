@@ -1,5 +1,10 @@
 <template>
-  <BaseCard :height="900" :width="1200">
+  <BaseCard
+    :height="900"
+    :width="1200"
+    :useHeader="true"
+    headerText="画像処理アプリ"
+  >
     <template #mainContents>
       <v-row>
         <FilterPlace
