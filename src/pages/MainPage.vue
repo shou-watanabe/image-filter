@@ -1,7 +1,10 @@
 <template>
   <MainTemplate
+    :original-image-path="originalImagePath"
     :result-image-path="resultImagePath"
+    :hist-graph-path="histGraphPath"
     @exec-filter="execFilter"
+    @update-original-file-path="updateOriginalFilePath"
   />
 </template>
 
@@ -19,7 +22,9 @@ export default Vue.extend({
   },
   data() {
     return {
+      originalImagePath: "",
       resultImagePath: "",
+      histGraphPath: "",
     };
   },
   methods: {
@@ -27,15 +32,19 @@ export default Vue.extend({
       const pythonMainPath = path.resolve(pythonPath, "main.py");
       const filter_name = "laplacian";
       const outputDirPath = path.resolve(pythonPath, "output");
-      const imagePath = path.resolve(
-        pythonPath,
-        "sample_image",
-        "fullcolor_sample_gray1.png"
-      );
+      // const imagePath = path.resolve(
+      //   pythonPath,
+      //   "sample_image",
+      //   "fullcolor_sample_gray1.png"
+      // );
+      if (!this.originalImagePath) {
+        console.log("error");
+        return;
+      }
       const pythonProcess = spawn("python", [
         pythonMainPath,
         filter_name,
-        imagePath,
+        this.originalImagePath,
         outputDirPath,
       ]);
       pythonProcess.stdout.on("data", (data) => {
@@ -49,12 +58,22 @@ export default Vue.extend({
         if (code !== 0) {
           throw new Error();
         }
-        this.resultImagePath = path.resolve(
+        const fileName: string = path.basename(this.originalImagePath);
+        const fileExt: string = path.extname(fileName);
+        const fileBaseName: string = path.basename(
+          this.originalImagePath,
+          fileExt
+        );
+        this.resultImagePath = path.resolve(outputDirPath, fileName);
+        this.histGraphPath = path.resolve(
           outputDirPath,
-          "fullcolor_sample_gray1_laplacian4.png"
+          `${fileBaseName}_plt.png`
         );
         return;
       });
+    },
+    updateOriginalFilePath(path: string): void {
+      this.originalImagePath = path;
     },
   },
 });

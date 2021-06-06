@@ -1,12 +1,12 @@
 <template>
-  <BaseCard
-    :useHeader="useHeader"
-    :headerText="headerText"
-    :height="useHeader ? height + 56 : height"
-    :width="width"
-  >
+  <BaseCard :height="height" :width="width">
     <template #mainContents>
-      <v-img :src="src" :height="height" :width="width"></v-img>
+      <InputFile
+        label="処理画像"
+        file-ext-type="image"
+        :selected-file-path="originalImagePath"
+        @emit-file-path="emitFilePath"
+      />
     </template>
   </BaseCard>
 </template>
@@ -14,14 +14,16 @@
 <script lang="ts">
 import Vue from "vue";
 import BaseCard from "@/components/molecules/base/BaseCard.vue";
+import InputFile from "@/components/molecules/InputFile.vue";
 
 export default Vue.extend({
-  name: "ImageDisplayer",
+  name: "SettingDisplayer",
   components: {
     BaseCard,
+    InputFile,
   },
   props: {
-    imagePath: {
+    originalImagePath: {
       type: String,
       default: "",
       required: true,
@@ -36,20 +38,10 @@ export default Vue.extend({
       default: 300,
       required: false,
     },
-    useHeader: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
-    headerText: {
-      type: String,
-      default: "",
-      required: false,
-    },
   },
-  computed: {
-    src(): string {
-      return "file://" + this.imagePath;
+  methods: {
+    emitFilePath(path: string): void {
+      this.$emit("emit-file-path", path);
     },
   },
 });
