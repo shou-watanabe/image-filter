@@ -1,5 +1,5 @@
 <template>
-  <BaseCard :height="height" :width="width">
+  <BaseCard :height="height" :width="width" :useHeader="true" headerText="設定">
     <template #mainContents>
       <InputFile
         label="処理画像"
