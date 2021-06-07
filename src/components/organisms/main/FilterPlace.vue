@@ -1,19 +1,21 @@
 <template>
   <div>
-    <v-col
-      :style="{ height: '900px', width: '400px' }"
-      justify="center"
-      align-content="center"
-    >
+    <v-col :style="{ height: '900px', width: '400px' }">
       <ImageDisplayer
+        headerText="元画像"
+        :useHeader="true"
         :image-path="originalImagePath"
         :height="300"
         :width="400"
       />
-      <v-btn icon x-large @click="execFilter">
-        <v-icon x-large>mdi-arrow-down-bold</v-icon>
-      </v-btn>
+      <center>
+        <v-btn icon x-large @click="execFilter">
+          <v-icon x-large>mdi-arrow-down-bold</v-icon>
+        </v-btn>
+      </center>
       <ImageDisplayer
+        headerText="処理画像"
+        :useHeader="true"
         :image-path="resultImagePath"
         :height="300"
         :width="400"
