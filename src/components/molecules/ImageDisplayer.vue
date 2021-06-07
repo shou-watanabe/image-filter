@@ -49,7 +49,8 @@ export default Vue.extend({
   },
   computed: {
     src(): string {
-      return "file://" + this.imagePath;
+      // キャッシュ対策で時間をつける
+      return `file://${this.imagePath}?${new Date().getTime()}`;
     },
   },
 });
