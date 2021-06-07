@@ -21,7 +21,9 @@
                   :original-image-path="originalImagePath"
                   :height="360"
                   :width="480"
+                  :filter-name="filterName"
                   @emit-file-path="emitFilePath"
+                  @emit-filter-name="emitFilterName"
                 />
                 <ImageDisplayer
                   headerText="ヒストグラム"
@@ -70,6 +72,11 @@ export default Vue.extend({
       default: "",
       required: true,
     },
+    filterName: {
+      type: String,
+      default: "",
+      required: true,
+    },
   },
   methods: {
     execFilter(): void {
@@ -77,6 +84,9 @@ export default Vue.extend({
     },
     emitFilePath(path: string): void {
       this.$emit("update-original-file-path", path);
+    },
+    emitFilterName(name: string): void {
+      this.$emit("update-filter-name", name);
     },
   },
 });
