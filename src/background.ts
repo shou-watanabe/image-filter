@@ -13,8 +13,6 @@ protocol.registerSchemesAsPrivileged([
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 1200,
-    height: 900,
     webPreferences: {
       // Required for Spectron testing
       enableRemoteModule: true,
@@ -26,6 +24,7 @@ async function createWindow() {
       webSecurity: false,
     },
   });
+  win.maximize();
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
