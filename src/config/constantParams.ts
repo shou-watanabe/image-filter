@@ -9,3 +9,6 @@ export const WINDOW_WIDTH = document.documentElement.clientWidth;
 
 /** 矢印ボタンの高さ */
 export const ARROW_HEIGHT = 52;
+
+/**  */
+export const SETTING_DISPLAYER_WIDTH = 500;

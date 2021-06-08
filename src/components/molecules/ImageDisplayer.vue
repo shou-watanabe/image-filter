@@ -2,11 +2,21 @@
   <BaseCard
     :useHeader="useHeader"
     :headerText="headerText"
-    :height="useHeader ? height + 56 : height"
+    :height="height"
     :width="width"
   >
     <template #mainContents>
-      <v-img :src="src" :height="height" :width="width"></v-img>
+      <center>
+        <v-img
+          :src="src"
+          :height="
+            imageDetail ? imageDetail.height * imageScale : canvasSize.height
+          "
+          :width="
+            imageDetail ? imageDetail.width * imageScale : canvasSize.width
+          "
+        />
+      </center>
     </template>
   </BaseCard>
 </template>
@@ -14,6 +24,9 @@
 <script lang="ts">
 import Vue from "vue";
 import BaseCard from "@/components/molecules/base/BaseCard.vue";
+import { Image } from "@/types/image";
+import { getImageDetail, calcImageScale } from "@/utils/image";
+import { HEADER_HEIGHT } from "@/config/constantParams";
 
 export default Vue.extend({
   name: "ImageDisplayer",
@@ -52,8 +65,35 @@ export default Vue.extend({
       // キャッシュ対策で時間をつける
       return `file://${this.imagePath}?${new Date().getTime()}`;
     },
+    imageDetail(): Image | undefined {
+      return getImageDetail(this.imagePath);
+    },
+    canvasSize(): { width: number; height: number } {
+      if (this.useHeader)
+        return {
+          width: this.width,
+          height: this.height - HEADER_HEIGHT,
+        };
+      else
+        return {
+          width: this.width,
+          height: this.height,
+        };
+    },
+    imageScale(): number | undefined {
+      return calcImageScale(this.imageDetail, {
+        height: this.canvasSize.height,
+        width: this.canvasSize.width,
+      });
+    },
   },
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+#image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>

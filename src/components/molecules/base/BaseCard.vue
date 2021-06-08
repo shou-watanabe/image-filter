@@ -1,6 +1,6 @@
 <template>
   <v-card :width="width" :height="height" :elevation="1">
-    <v-app-bar v-if="useHeader" :elevation="1">
+    <v-app-bar v-if="useHeader" :elevation="1" :height="headerHeight">
       <p class="subtitle-1 font-weight-bold ma-auto">
         {{ headerText }}
       </p>
@@ -24,6 +24,11 @@ export default Vue.extend({
     headerText: {
       type: String,
       default: "",
+      required: false,
+    },
+    headerHeight: {
+      type: Number,
+      default: 56,
       required: false,
     },
     height: {

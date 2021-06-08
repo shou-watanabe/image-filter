@@ -1,7 +1,7 @@
 <template>
   <BaseCard
-    :height="900"
-    :width="1200"
+    :height="windowHeight"
+    :width="windowWidth"
     :useHeader="true"
     headerText="画像処理アプリ"
   >
@@ -12,30 +12,29 @@
           :result-image-path="resultImagePath"
           @exec-filter="execFilter"
         />
-        <!-- <RightSide :hist-graph-path="histGraphPath" :ori /> -->
-        <v-layout justify-end>
-          <BaseCard :height="900" :width="480">
-            <template #mainContents>
-              <v-row>
-                <SettingDisplayer
-                  :original-image-path="originalImagePath"
-                  :height="360"
-                  :width="480"
-                  :filter-name="filterName"
-                  @emit-file-path="emitFilePath"
-                  @emit-filter-name="emitFilterName"
-                />
-                <ImageDisplayer
-                  headerText="ヒストグラム"
-                  :useHeader="true"
-                  :image-path="histGraphPath"
-                  :height="360"
-                  :width="480"
-                />
-              </v-row>
-            </template>
-          </BaseCard>
-        </v-layout>
+        <BaseCard
+          :height="windowHeight - headerHeight"
+          :width="settingDisplayerWidth"
+          class="mr-3 mt-3"
+        >
+          <template #mainContents>
+            <SettingDisplayer
+              :original-image-path="originalImagePath"
+              :height="canvasHeight"
+              :width="settingDisplayerWidth"
+              :filter-name="filterName"
+              @emit-file-path="emitFilePath"
+              @emit-filter-name="emitFilterName"
+            />
+            <ImageDisplayer
+              headerText="ヒストグラム"
+              :useHeader="true"
+              :image-path="histGraphPath"
+              :height="canvasHeight"
+              :width="settingDisplayerWidth"
+            />
+          </template>
+        </BaseCard>
       </v-row>
     </template>
   </BaseCard>
@@ -47,6 +46,12 @@ import FilterPlace from "@/components/organisms/main/FilterPlace.vue";
 import BaseCard from "@/components/molecules/base/BaseCard.vue";
 import ImageDisplayer from "@/components/molecules/ImageDisplayer.vue";
 import SettingDisplayer from "@/components/organisms/main/SettingDisplayer.vue";
+import {
+  WINDOW_HEIGHT,
+  WINDOW_WIDTH,
+  HEADER_HEIGHT,
+  SETTING_DISPLAYER_WIDTH,
+} from "@/config/constantParams";
 
 export default Vue.extend({
   name: "MainTemplate",
@@ -76,6 +81,23 @@ export default Vue.extend({
       type: String,
       default: "",
       required: true,
+    },
+  },
+  computed: {
+    windowHeight(): number {
+      return WINDOW_HEIGHT;
+    },
+    windowWidth(): number {
+      return WINDOW_WIDTH;
+    },
+    headerHeight(): number {
+      return HEADER_HEIGHT;
+    },
+    canvasHeight(): number {
+      return (WINDOW_HEIGHT - HEADER_HEIGHT) / 2;
+    },
+    settingDisplayerWidth(): number {
+      return SETTING_DISPLAYER_WIDTH;
     },
   },
   methods: {
