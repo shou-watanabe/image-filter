@@ -14,8 +14,10 @@
 import Vue from "vue";
 import MainTemplate from "@/components/templates/MainTemplate.vue";
 import path from "path";
+import { remote } from "electron";
 import { spawn } from "child_process";
 import { pythonPath } from "@/config/index";
+import { E_MESSAGE_000, E_MESSAGE_001 } from "@/config/constantMessages";
 
 export default Vue.extend({
   name: "MainPage",
@@ -34,18 +36,15 @@ export default Vue.extend({
     execFilter(): void {
       const pythonMainPath = path.resolve(pythonPath, "main.py");
       const outputDirPath = path.resolve(pythonPath, "output");
-      // const imagePath = path.resolve(
-      //   pythonPath,
-      //   "sample_image",
-      //   "fullcolor_sample_gray1.png"
-      // );
+
       if (!this.originalImagePath) {
-        console.log("error");
+        remote.dialog.showErrorBox(E_MESSAGE_000, E_MESSAGE_001);
         return;
       }
       // キャッシュ対策
       this.resultImagePath = "";
       this.histGraphPath = "";
+
       const pythonProcess = spawn("python", [
         pythonMainPath,
         this.selectedFilterName,
